@@ -11,7 +11,7 @@ public class TestServer extends Thread {
 
     public TestServer () {
         try {
-            this.ss = new ServerSocket(64646, 1, InetAddress.getByName("192.168.68.107"));// free ports = 49152-65535
+            this.ss = new ServerSocket(64646, 1, InetAddress.getByName("192.168.68.107"));// local IP to server, free ports = 49152-65535
         } catch (IOException ioe) {
             System.out.println("I/O error");
         } catch (SecurityException se) {

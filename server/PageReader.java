@@ -3,7 +3,7 @@ package server;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class WebReader {
+public class PageReader {
     public static String read() {
         String site = "ERROR";
 

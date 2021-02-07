@@ -1,7 +1,6 @@
 package server;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -30,20 +29,20 @@ class HandleClient extends Thread {
             PrintWriter pr = new PrintWriter(client.getOutputStream()); // send to client
 
             do {
-                line = br.readLine();
+                line = br.readLine(); // Holds untill something can be read
                 System.out.println("Client " + clientAddress + ": " + line);
                 
                 if(line.equals("GET / HTTP/1.1")) { // Requesting main page
                     pr.println("HTTP/1.1 200 OK"); // Request-answere: OK
-                    pr.println(WebReader.read());
+                    pr.println(PageReader.read());
                     System.out.println("Page printed");
                     pr.flush();
                     System.out.println("Page sent");
                     line = "done"; // request handled: done
                 }
-            } while(!"done".equals(line));
+            } while(!"done".equals(line)); // Could also be null as null = ctrl+c
 
-            pr.close();
+            pr.close(); // not needed since created in try- Java cloeses automatically
             client.close();
             System.out.println("Socket to " + clientAddress + " closed.");
         } catch(SocketTimeoutException ste) { // Socket is not closed because of TIME_OUT
