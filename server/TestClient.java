@@ -28,7 +28,7 @@ public class TestClient {
             PrintWriter pr = new PrintWriter(s.getOutputStream());
 
             pr.println("SAVE sentFile.txt");
-            pr.println("this;will;be;written;in;new;file;");
+            pr.println("this;will;be;written;in;new;file;"); //TODO: could use readFile() here
             pr.println("done");
             pr.flush();
             
@@ -42,7 +42,11 @@ public class TestClient {
         } catch (IOException e) {
 
         }
+    }
 
-
+    public String readFile(String fileName) {
+        //TODO: Reads a file and saves it to a string. Easy with FileReader and StringBuilder
+        
+        return null;
     }
 }
