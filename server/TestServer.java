@@ -5,6 +5,11 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/*
+Simple server that handles the most basic HTTP request and
+is compatible with TestClient. Can store a file sent from TestClient.
+ */
+
 public class TestServer extends Thread {
     private ServerSocket ss = null;
     private boolean running = true;

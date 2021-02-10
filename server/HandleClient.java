@@ -1,6 +1,8 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -10,18 +12,18 @@ class HandleClient extends Thread {
     private Socket client;
     private String clientAddress;
 
-    public HandleClient (Socket client) {
+    public HandleClient(Socket client) {
         this.client = client;
         this.clientAddress = client.getInetAddress().toString();
         System.out.println("Client " + clientAddress + ": connected"); // General info about
-        System.out.println("New TestServer-thread running.");           //connection
+        System.out.println("New TestServer-thread running."); // connection
         start();
     }
-    
+
     @Override
     public void run() {
         try {
-            this.client.setSoTimeout(5000);
+            // this.client.setSoTimeout(5000);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream())); // Reads from client
             String line = null;
@@ -31,28 +33,60 @@ class HandleClient extends Thread {
             do {
                 line = br.readLine(); // Holds untill something can be read
                 System.out.println("Client " + clientAddress + ": " + line);
-                
-                if(line.equals("GET / HTTP/1.1")) { // Requesting main page
-                    pr.println("HTTP/1.1 200 OK"); // Request-answere: OK
-                    pr.println(PageReader.read());
-                    System.out.println("Page printed");
-                    pr.flush();
-                    System.out.println("Page sent");
-                    line = "done"; // request handled: done
+
+                String action = line.split(" ")[0];
+
+                if (action.equals("GET")) {
+                    handleHTTPReq(line, br, pr);
+                    line = "done"; // HTTP request done
+                } else if (action.equals("SAVE")) {
+                    handleStore(line, br, pr); // if no problem: client will write "done"
                 }
-            } while(!"done".equals(line)); // Could also be null as null = ctrl+c
+            } while (!"done".equals(line)); // Could also be null as null = ctrl+c
 
             pr.close(); // not needed since created in try- Java cloeses automatically
             client.close();
             System.out.println("Socket to " + clientAddress + " closed.");
-        } catch(SocketTimeoutException ste) { // Socket is not closed because of TIME_OUT
+        } catch (SocketTimeoutException ste) { // Socket is not closed because of TIME_OUT
             System.out.println("TIME_OUT happened");
-            ste.printStackTrace();
             run();
-            //sendTimeOut(s);
-        } catch(Exception e) {
+            // sendTimeOut(s);
+        } catch (Exception e) {
             System.out.println("\nSomething went wrong while running.");
             e.printStackTrace();
+        }
+    }
+
+    private void handleHTTPReq(String request, BufferedReader br, PrintWriter pr) {
+
+        if (request.equals("GET / HTTP/1.1")) { // Requesting main page
+            pr.println("HTTP/1.1 200 OK"); // Request-answere: OK
+            pr.println(PageReader.read());
+            System.out.println("Page printed");
+            pr.flush();
+            System.out.println("Page sent");
+        }
+    }
+
+    private void handleStore(String req, BufferedReader br, PrintWriter pr) {
+        try {
+            String file = req.split(" ")[1]; // name of file
+            FileWriter fw = new FileWriter(file);
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine(); // reads next line after request
+
+            while(!"done".equals(line)) {
+                sb.append(line + "\n");
+                line = br.readLine();
+            }
+
+            fw.write(sb.toString()); // doesn't append, just writes over
+            fw.close();
+
+            pr.println("saved"); // tells client input was saved
+            pr.flush();
+        } catch (IOException e) {
+            System.out.println("Error while creating file");
         }
     }
 

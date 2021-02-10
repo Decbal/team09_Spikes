@@ -3,13 +3,18 @@
 <head>
 </head>
 
-<script>		
-</script>
 
 <body>
 	
 	<h1>Hello Team09</h1>
 	<p>Live updates should be implemented</p>
-
+	<button onclick="xmlReq()">send req</button>
+	<script>
+		function xmlReq() {
+			var xml = new XMLHttpRequest();
+			xml.open("GET", "file.txt");
+			xml.send();
+		}
+	</script>
 </body>
 </html>
