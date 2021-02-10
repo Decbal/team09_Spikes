@@ -58,14 +58,17 @@ class HandleClient extends Thread {
     }
 
     private void handleHTTPReq(String request, BufferedReader br, PrintWriter pr) {
+        pr.println("HTTP/1.1 200 OK"); // Request-answere: OK
 
         if (request.equals("GET / HTTP/1.1")) { // Requesting main page
-            pr.println("HTTP/1.1 200 OK"); // Request-answere: OK
             pr.println(PageReader.read());
             System.out.println("Page printed");
-            pr.flush();
-            System.out.println("Page sent");
+        } else { // Other form of HTTP request (xmlHTTPrequest)
+            pr.println("\nSwitched\n"); // HTML responses are wiered with lines
         }
+        
+        pr.flush();
+        System.out.println("HTTP response sent");
     }
 
     private void handleStore(String req, BufferedReader br, PrintWriter pr) {

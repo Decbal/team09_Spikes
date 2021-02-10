@@ -4,6 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class PageReader {
+
+    public static String test() {
+        for(int i = 0; i < 1000; i ++) {
+            
+        }
+        return "bread";
+    }
     public static String read() {
         String site = "ERROR";
 

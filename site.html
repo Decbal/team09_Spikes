@@ -4,16 +4,21 @@
 </head>
 
 
-<body>
+<body onload="setInterval(xmlReq, 5000)">
 	
-	<h1>Hello Team09</h1>
+	<h1 id="hello">Hello Team09</h1>
 	<p>Live updates should be implemented</p>
-	<button onclick="xmlReq()">send req</button>
+
 	<script>
 		function xmlReq() {
 			var xml = new XMLHttpRequest();
+			xml.onreadystatechange = function () {
+				if(this.readyState == 4 && this.status == 200) {
+					document.getElementById("hello").innerHTML = xml.responseText;
+				}
+			}
 			xml.open("GET", "file.txt");
-			xml.send();
+			xml.send();	
 		}
 	</script>
 </body>
