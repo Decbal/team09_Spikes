@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.sql.Date;
+import java.time.LocalDateTime;
 
 class HandleClient extends Thread {
     private Socket client;
@@ -64,7 +66,7 @@ class HandleClient extends Thread {
             pr.println(PageReader.read());
             System.out.println("Page printed");
         } else { // Other form of HTTP request (xmlHTTPrequest)
-            pr.println("\nSwitched\n"); // HTML responses are wiered with lines
+            pr.println("\n" + LocalDateTime.now() + "\n"); // HTML responses are wiered with lines
         }
         
         pr.flush();
