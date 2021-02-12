@@ -7,8 +7,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.sql.Date;
 import java.time.LocalDateTime;
+
+import server.operations.OP;
 
 class HandleClient extends Thread {
     private Socket client;
@@ -60,6 +61,8 @@ class HandleClient extends Thread {
     }
 
     private void handleHTTPReq(String request, BufferedReader br, PrintWriter pr) {
+        Filename filename;
+
         pr.println("HTTP/1.1 200 OK"); // Request-answere: OK
 
         if (request.equals("GET / HTTP/1.1")) { // Requesting main page
@@ -68,25 +71,16 @@ class HandleClient extends Thread {
         } else { // Other form of HTTP request (xmlHTTPrequest)
             pr.println("\n" + LocalDateTime.now() + "\n"); // HTML responses are wiered with lines
         }
-        
+
         pr.flush();
         System.out.println("HTTP response sent");
     }
 
-    private void handleStore(String req, BufferedReader br, PrintWriter pr) {
+    private void handleSave(Filename filename, BufferedReader br, PrintWriter pr) {
         try {
             String file = req.split(" ")[1]; // name of file
-            FileWriter fw = new FileWriter(file);
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine(); // reads next line after request
-
-            while(!"done".equals(line)) {
-                sb.append(line + "\n");
-                line = br.readLine();
-            }
-
-            fw.write(sb.toString()); // doesn't append, just writes over
-            fw.close();
+            FileHandler fh = new FileHandler(Filename.);
+            fh.writeFile(br, true);
 
             pr.println("saved"); // tells client input was saved
             pr.flush();

@@ -27,15 +27,15 @@ public class Menu {
         frame.setVisible(true);
     }
 
-
     private void startServer() {
         closeServer(); // if one is running before, close it
         ts = new TestServer();
-        //new TestClient(); // just a test-Java-client compatible with test-server
+        new TestClient(); // just a test-Java-client compatible with test-server
     }
 
     private void closeServer() {
-        if (ts != null) ts.closeServer();
+        if (ts != null)
+            ts.closeServer();
     }
-    
+
 }

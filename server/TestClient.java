@@ -15,7 +15,7 @@ public class TestClient {
 
     public TestClient() {
         try {
-            Socket s = new Socket(InetAddress.getByName("192.168.68.107"), 64646);
+            Socket s = new Socket(InetAddress.getByName("127.0.0.1"), 5000);
             run(s);
         } catch (IOException e) {
             System.out.println("Could not connect");
@@ -28,14 +28,14 @@ public class TestClient {
             PrintWriter pr = new PrintWriter(s.getOutputStream());
 
             pr.println("SAVE sentFile.txt");
-            pr.println("this;will;be;written;in;new;file;"); //TODO: could use readFile() here
+            pr.println("this;will;be;written;in;new;file;"); // TODO: could use readFile() here
             pr.println("done");
             pr.flush();
-            
+
             BufferedReader bf = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
             String line = bf.readLine();
-            if(line.equals("saved")) {
+            if (line.equals("saved")) {
                 pr.println("done");
                 pr.flush();
             }
@@ -45,8 +45,9 @@ public class TestClient {
     }
 
     public String readFile(String fileName) {
-        //TODO: Reads a file and saves it to a string. Easy with FileReader and StringBuilder
-        
+        // TODO: Reads a file and saves it to a string. Easy with FileReader and
+        // StringBuilder
+
         return null;
     }
 }

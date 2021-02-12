@@ -14,9 +14,10 @@ public class TestServer extends Thread {
     private ServerSocket ss = null;
     private boolean running = true;
 
-    public TestServer () {
+    public TestServer() {
         try {
-            this.ss = new ServerSocket(64646, 1, InetAddress.getByName("192.168.68.107"));// local IP to server, free ports = 49152-65535
+            this.ss = new ServerSocket(5000, 1, InetAddress.getByName("127.0.0.1"));// local IP to server, free ports =
+                                                                                    // 49152-65535
         } catch (IOException ioe) {
             System.out.println("I/O error");
         } catch (SecurityException se) {
@@ -32,7 +33,7 @@ public class TestServer extends Thread {
     @Override
     public void run() {
         try {
-            while(running) {
+            while (running) {
                 Socket s = ss.accept(); // holds here until a client connects
                 new HandleClient(s);
             }
@@ -52,5 +53,5 @@ public class TestServer extends Thread {
             System.out.println("Something happened when closing server.");
         }
     }
-    
+
 }
