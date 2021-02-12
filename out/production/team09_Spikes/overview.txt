@@ -1,0 +1,44 @@
+skicka data SAVE
+ta emot data 
+
+// Hur en config "kommer se ut"
+config:
+StartTimeFilename, starttid.txt
+EndTimeFilename, maltid1.txt;maltid2.txt;
+NameFilename, namn.txt
+Resultat, result.txt
+...
+
+// Registering skickas direkt till server från register programmmet
+Val vid start av register så att programmet vet ifall det skickar start eller måltider
+(data som behövs för att servern ska veta)
+
+
+// Client skickar config vid resultat producering
+client -> {config} -> servern -> config.split(",") -> {loppspecifika, namnfil, resultat, format, minimitid}
+
+
+// Servern
+
+tid {start, mål}
+fil {namnfil, startfil, målfil}
+
+// Protokollstandard
+OP     	    TYPE
+
+CONFIG 	    configfile
+SAVE  	    tid
+SAVEFILE    fil
+READ        fil
+GET         /*.html
+
+SAVEFILE NAME {namnfil}
+SAVEFILE RESULT {resultfil}
+SAVEFILE START -> 
+   
+server:
+
+tar emot tid -> appenda till rätt fil {TYP}
+tar emot fil -> spara till fil {TYP}
+tar emot config -> parsa config -> skapa config-objekt
+producera resultat enligt config -> presentera HTML eller skicka .txt fil

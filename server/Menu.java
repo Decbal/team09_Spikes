@@ -30,7 +30,8 @@ public class Menu {
     private void startServer() {
         closeServer(); // if one is running before, close it
         ts = new TestServer();
-        new TestClient(); // just a test-Java-client compatible with test-server
+        new Thread(ts).start();
+        // new TestClient(); // just a test-Java-client compatible with test-server
     }
 
     private void closeServer() {

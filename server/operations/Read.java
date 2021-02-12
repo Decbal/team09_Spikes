@@ -5,25 +5,16 @@ import java.io.PrintWriter;
 import server.FileHandler;
 import server.Filename;
 
-public class Read extends OP {
-    private Filename filename;
-    private PrintWriter pr;
+public class Read extends Operation  {
 
-    public Read(Filename filename, PrintWriter pr) {
-        this.filename = filename;
-        this.pr = pr;
+    public Read(PrintWriter pr) {
+        super(pr);
     }
 
     @Override
-    public void execute() {
-        try {
-            FileHandler fh = new FileHandler(filename.toString());
+    public void eval(String filename) {
+            FileHandler fh = new FileHandler(filename);
             String content = fh.readFile();
             pr.println(content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
-
 }

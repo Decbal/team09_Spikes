@@ -1,6 +1,12 @@
 package server;
 
+import server.operations.Save;
+import server.operations.Get;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,9 +16,10 @@ Simple server that handles the most basic HTTP request and
 is compatible with TestClient. Can store a file sent from TestClient.
  */
 
-public class TestServer extends Thread {
+public class TestServer implements Runnable {
     private ServerSocket ss = null;
     private boolean running = true;
+    private HandleClient server;
 
     public TestServer() {
         try {
@@ -27,7 +34,15 @@ public class TestServer extends Thread {
             iae.printStackTrace();
         }
         System.out.println("Server has started.");
-        start();
+    }
+
+    public void setupServer(Socket socket) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream())); // Reads from client
+        PrintWriter pr = new PrintWriter(socket.getOutputStream()); // send to client
+        this.server = new HandleClient(socket, pr, br);
+        server.addRoute("SAVE", new Save(pr, br));
+        server.addRoute("TEST", new Get(pr, br));
+        server.addRoute("GET", new Get(pr, br));
     }
 
     @Override
@@ -35,7 +50,8 @@ public class TestServer extends Thread {
         try {
             while (running) {
                 Socket s = ss.accept(); // holds here until a client connects
-                new HandleClient(s);
+                setupServer(s);
+                server.run();
             }
         } catch (IOException e) {
             System.out.println("Closed? Something happened while trying to accept new client.");
