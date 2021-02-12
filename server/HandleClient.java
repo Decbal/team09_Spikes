@@ -34,11 +34,12 @@ class HandleClient extends RequestHandler implements Runnable {
                 line = br.readLine(); // Holds until something can be read
                 System.out.println("Client " + clientAddress + ": " + line);
 
-                String action = line.split(" ")[0];
-                String filename = line.split(" ")[1];
-                System.out.println("action: " + action);
-                if (!action.equals("null")) {
-                    getRoute(action).execute(filename);
+                String[] header = line.split(" ");
+                String op = header[0];
+                String filename = new FilenameHandler().getFile(header[1]);
+                System.out.println("Client operation: " + op);
+                if (!op.equals("null")) {
+                    getRoute(op).execute(filename);
                     line = "done"; // HTTP request done
                 }
             } while (!"done".equals(line)); // Could also be null as null = ctrl+c
