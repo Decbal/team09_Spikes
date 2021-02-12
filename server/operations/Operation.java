@@ -2,6 +2,8 @@ package server.operations;
 
 import java.io.PrintWriter;
 
+import server.GlobalStrings;
+
 /**
  * Abstract class for server operations
  */
@@ -36,6 +38,9 @@ public abstract class Operation {
 
     public void execute(String path) {
         try {
+            if(path.equals(GlobalStrings.FILE_INVALID)) {
+                throw new Exception();
+            }
             eval(path);
             System.out.println("exec");
         } catch(Exception e) {

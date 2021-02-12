@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * A FileHandler which can read a write to files
@@ -54,14 +53,15 @@ public class FileHandler {
     public void writeFile(BufferedReader br, boolean append) throws IOException {
         FileWriter fw = new FileWriter(this.filename, append);
         StringBuilder sb = new StringBuilder();
-        String line = br.readLine(); // reads next line after request
+        String line = br.readLine(); // reads next line after header
 
-        while (!"done".equals(line)) {
+        while (!"done".equals(line)) { // client should tell server when the entire content has
+                                        // been sent
             sb.append(line).append("\n");
             line = br.readLine();
         }
 
-        fw.write(sb.toString()); // doesn't append, just writes over
+        fw.write(sb.toString());
         fw.close();
 
         // pr.println("saved"); // tells client input was saved

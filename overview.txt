@@ -42,3 +42,11 @@ tar emot tid -> appenda till rätt fil {TYP}
 tar emot fil -> spara till fil {TYP}
 tar emot config -> parsa config -> skapa config-objekt
 producera resultat enligt config -> presentera HTML eller skicka .txt fil
+
+
+
+Jag tänker:
+Clienten ska inte kunna bestämma vad filer ska heta,
+bara på vilken fil den vill opperera på. Och det bestämms via 
+andra argumentet (typ), till varje typ kopplas ett filnamn via FileNameHandler.
+HTTP (GET) behöver dock undantag/ annat tillvägagångssätt.

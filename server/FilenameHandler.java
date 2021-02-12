@@ -10,7 +10,7 @@ public class FilenameHandler {
         addValidFile(GlobalStrings.TYPE_START, GlobalStrings.FILE_START);
         addValidFile(GlobalStrings.TYPE_END, GlobalStrings.FILE_END);
         addValidFile(GlobalStrings.TYPE_NAME, GlobalStrings.FILE_NAME);
-        
+        addValidFile(GlobalStrings.TYPE_RESULT, GlobalStrings.FILE_RESULT);
     }
 
     public FilenameHandler addValidFile(String type, String name) {

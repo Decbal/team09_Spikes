@@ -40,9 +40,9 @@ public class TestServer implements Runnable {
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream())); // Reads from client
         PrintWriter pr = new PrintWriter(socket.getOutputStream()); // send to client
         this.server = new HandleClient(socket, pr, br);
-        server.addRoute("SAVE", new Save(pr, br));
-        server.addRoute("TEST", new Get(pr, br));
-        server.addRoute("GET", new Get(pr, br));
+        server.addRoute(GlobalStrings.OP_SAVE, new Save(pr, br));
+        server.addRoute(GlobalStrings.OP_TEST, new Get(pr, br));
+        server.addRoute(GlobalStrings.OP_GET, new Get(pr, br));
     }
 
     @Override
@@ -51,7 +51,8 @@ public class TestServer implements Runnable {
             while (running) {
                 Socket s = ss.accept(); // holds here until a client connects
                 setupServer(s);
-                server.run();
+                server.run(); // TODO: see next row
+                // new Thread(server).start(); // <-- is probably needed
             }
         } catch (IOException e) {
             System.out.println("Closed? Something happened while trying to accept new client.");

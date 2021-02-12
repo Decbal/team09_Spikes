@@ -36,6 +36,11 @@ class HandleClient extends RequestHandler implements Runnable {
 
                 String[] header = line.split(" ");
                 String op = header[0];
+
+
+                // Maybe needed to check if op == "GET", since HTTP, different from others
+                
+                
                 String filename = new FilenameHandler().getFile(header[1]);
                 System.out.println("Client operation: " + op);
                 if (!op.equals("null")) {
